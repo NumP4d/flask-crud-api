@@ -6,6 +6,8 @@ class Seller(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     country_code = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String(100), unique=True, nullable=False)
+    products = db.relationship('Product',
+        backref=db.backref('seller', lazy=True))
 
     def __repr__(self):
         country_name = countries.get(self.country_code).name
