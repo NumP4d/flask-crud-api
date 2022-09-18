@@ -1,7 +1,18 @@
 from flask import Blueprint, request, jsonify
 from api.model import db, Seller
+from api.schema import SellerSchema
+
 
 seller_api = Blueprint('seller', __name__)
+
+seller_schema = SellerSchema()
+seller_schemas = SellerSchema(many=True)
+
+@seller_api.route('/', methods=['GET'])
+def get_sellers():
+    sellers = Seller.query.all()
+    return jsonify(seller_schemas.dump(sellers))
+
 
 @seller_api.route('/', methods=['POST'])
 def create_seller():
@@ -16,16 +27,8 @@ def create_seller():
         raise exc
     return 'seller created'
 
-@seller_api.route('/', methods=['GET'])
-def get_sellers():
-    sellers = []
-    for seller in db.session.query(Seller).all():
-        del seller.__dict__['_sa_instance_state']
-        sellers.append(seller.__dict__)
-    return jsonify(sellers)
 
 @seller_api.route('/<id>', methods=['GET'])
 def get_seller(id):
     seller = Seller.query.get(id)
-    del seller.__dict__['_sa_instance_state']
-    return jsonify(seller.__dict__)
+    return jsonify(seller_schema.dump(seller))
