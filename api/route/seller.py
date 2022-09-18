@@ -8,7 +8,8 @@ def create_seller():
     body = request.get_json()
     try:
         seller_name = body['name']
-        new_seller = Seller(name=seller_name)
+        country_code = body['country_code']
+        new_seller = Seller(name=seller_name, country_code=country_code)
         db.session.add(new_seller)
         db.session.commit()
     except KeyError as exc:
