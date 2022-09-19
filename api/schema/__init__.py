@@ -4,8 +4,12 @@ ma = Marshmallow()
 
 from .products_schema import ProductSchema
 from .sellers_schema import SellerSchema
+from .transactions_schema import TransactionSchema
+
 
 __all__ = [
     'ma',
-    'ProductSchema'
+    'SellerSchema',
+    'ProductSchema',
+    'TransactionSchema'
 ]
